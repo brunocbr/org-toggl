@@ -112,6 +112,7 @@ its id.")
 (defvar toggl-current-time-entry nil
   "Data of the current Toggl time entry.")
 
+;;;###autoload
 (defun toggl-get-projects ()
   "Fill in `toggl-projects' (asynchronously)."
   (interactive)
@@ -133,12 +134,14 @@ its id.")
 (defvar toggl-default-project nil
   "Id of the default Toggl project.")
 
+;;;###autoload
 (defun toggl-select-default-project (project)
   "Make PROJECT the default.
 It is assumed that no two projects have the same name."
   (interactive (list (completing-read "Default project: " toggl-projects nil t)))
   (setq toggl-default-project (toggl-get-pid project)))
 
+;;;###autoload
 (defun toggl-start-time-entry (description &optional pid show-message)
   "Start Toggl time entry."
   (interactive "MDescription: \ni\np")
@@ -158,6 +161,7 @@ It is assumed that no two projects have the same name."
     (lambda (&key error-thrown &allow-other-keys)
       (when show-message (message "Starting time entry failed because %s" error-thrown))))))
 
+;;;###autoload
 (defun toggl-stop-time-entry (&optional show-message)
   "Stop running Toggl time entry."
   (interactive "p")
@@ -175,6 +179,7 @@ It is assumed that no two projects have the same name."
 	(when show-message (message "Stopping time entry failed because %s" error-thrown)))))
     (setq toggl-current-time-entry nil)))
 
+;;;###autoload
 (defun toggl-delete-time-entry (&optional tid show-message)
   "Delete a Toggl time entry.
 By default, delete the current one."
@@ -202,6 +207,7 @@ By default, delete the current one."
   :type 'boolean
   :group 'toggl)
 
+;;;###autoload
 (defun org-toggl-clock-in ()
   "Start a Toggl time entry based on current heading."
   (interactive)
@@ -210,14 +216,17 @@ By default, delete the current one."
 	 (pid (toggl-get-pid project)))
     (when pid (toggl-start-time-entry heading pid t))))
 
+;;;###autoload
 (defun org-toggl-clock-out ()
   "Stop the running Toggle time entry."
   (toggl-stop-time-entry t))
 
+;;;###autoload
 (defun org-toggl-clock-cancel ()
   "Delete the running Toggle time entry."
   (toggl-delete-time-entry nil t))
 
+;;;###autoload
 (defun org-toggl-set-project (project)
   "Save PROJECT in the properties of the current Org headline."
   (interactive (list (completing-read "Toggl project for this headline: " toggl-projects nil t))) ; TODO: dry!
